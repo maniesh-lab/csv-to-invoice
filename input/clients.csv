@@ -1,0 +1,7 @@
+client_name, service, amount, tax_rate, due_date
+John Smith, Web Scraping, 150, 13, 2026-06-15
+Sara Lee, Data Analysis, 200, 13, 2026-06-20
+David Chen, API Integration, 350, 13, 2026-06-25
+Elena Rostova, Dashboard Design, 500, 13, 2026-06-28
+Marcus Vance, Database Setup, 450, 13, 2026-07-02
+Amina Diop, Script Automation, 250, 13, 2026-07-05
