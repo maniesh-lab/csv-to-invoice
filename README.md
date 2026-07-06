@@ -24,6 +24,7 @@ ready-to-send PDF invoice per client in seconds.
 csv-to-invoice/
 │
 ├── templates/
+│   ├── __init__.py
 │   └── invoice_template.py    # colors, fonts, layout, sender info
 │
 ├── processors/
