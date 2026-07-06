@@ -1,7 +1,6 @@
 from fpdf import FPDF
 from pathlib import Path
-from templates.invoice_template import get_sender_info, get_colors, get_fonts, get_layout
-
+from templates import get_sender_info, get_colors, get_fonts, get_layout
 
 def create_pdf():
     pdf = FPDF()
