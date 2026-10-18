@@ -2,3 +2,5 @@ venv/
 __pycache__/
 *.pyc
 .DS_Store 
+# Last invoice number used (created on first run)
+invoice_counter.json

@@ -1,4 +1,6 @@
-from fpdf import FPDF
+import re
+
+from fpdf import FPDF, XPos, YPos
 from pathlib import Path
 from templates import get_sender_info, get_colors, get_fonts, get_layout
 
@@ -25,24 +27,24 @@ def add_header(pdf, invoice_number):
     pdf.set_xy(layout["margin"], 8)
     pdf.set_font(fonts["heading"]["family"], fonts["heading"]["style"], fonts["heading"]["size"])
     pdf.set_text_color(*colors["white"])
-    pdf.cell(120, 10, sender["name"], ln=0)
+    pdf.cell(120, 10, sender["name"], new_x=XPos.RIGHT, new_y=YPos.TOP)
 
     # Invoice label — top right
     pdf.set_font(fonts["subheading"]["family"], fonts["subheading"]["style"], fonts["subheading"]["size"])
     pdf.set_xy(140, 8)
-    pdf.cell(55, 10, "INVOICE", align="R", ln=1)
+    pdf.cell(55, 10, "INVOICE", align="R", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     # Tagline — below name
     pdf.set_xy(layout["margin"], 17)
     pdf.set_font(fonts["tagline"]["family"], fonts["tagline"]["style"], fonts["tagline"]["size"])
     pdf.set_text_color(*colors["accent"])
-    pdf.cell(120, 6, sender["tagline"], ln=0)
+    pdf.cell(120, 6, sender["tagline"], new_x=XPos.RIGHT, new_y=YPos.TOP)
 
     # Invoice number — below INVOICE label
     pdf.set_xy(140, 17)
     pdf.set_font(fonts["small"]["family"], fonts["small"]["style"], fonts["small"]["size"])
     pdf.set_text_color(*colors["white"])
-    pdf.cell(55, 6, f"#{invoice_number}", align="R", ln=1)
+    pdf.cell(55, 6, f"#{invoice_number}", align="R", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     pdf.ln(layout["section_gap"] + 4)
 
@@ -56,16 +58,16 @@ def add_sender_details(pdf):
     pdf.set_x(layout["margin"])
     pdf.set_font(fonts["label"]["family"], fonts["label"]["style"], fonts["label"]["size"])
     pdf.set_text_color(*colors["text_muted"])
-    pdf.cell(0, 6, "FROM", ln=1)
+    pdf.cell(0, 6, "FROM", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     pdf.set_font(fonts["body"]["family"], fonts["body"]["style"], fonts["body"]["size"])
     pdf.set_text_color(*colors["text_dark"])
     pdf.set_x(layout["margin"])
-    pdf.cell(0, 5, sender["email"], ln=1)
+    pdf.cell(0, 5, sender["email"], new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.set_x(layout["margin"])
-    pdf.cell(0, 5, sender["github"], ln=1)
+    pdf.cell(0, 5, sender["github"], new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.set_x(layout["margin"])
-    pdf.cell(0, 5, sender["location"], ln=1)
+    pdf.cell(0, 5, sender["location"], new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     pdf.ln(layout["section_gap"])
 
@@ -79,24 +81,24 @@ def add_client_section(pdf, invoice_data):
     pdf.set_x(layout["margin"])
     pdf.set_font(fonts["label"]["family"], fonts["label"]["style"], fonts["label"]["size"])
     pdf.set_text_color(*colors["text_muted"])
-    pdf.cell(0, 6, "BILL TO", ln=1)
+    pdf.cell(0, 6, "BILL TO", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     # Client name
     pdf.set_x(layout["margin"])
     pdf.set_font(fonts["subheading"]["family"], fonts["subheading"]["style"], fonts["subheading"]["size"])
     pdf.set_text_color(*colors["text_dark"])
-    pdf.cell(0, 6, invoice_data["client_name"], ln=1)
+    pdf.cell(0, 6, invoice_data["client_name"], new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     # Due date — right aligned
     pdf.set_xy(140, pdf.get_y() - 6)
     pdf.set_font(fonts["label"]["family"], fonts["label"]["style"], fonts["label"]["size"])
     pdf.set_text_color(*colors["text_muted"])
-    pdf.cell(55, 5, "DUE DATE", align="R", ln=1)
+    pdf.cell(55, 5, "DUE DATE", align="R", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     pdf.set_xy(140, pdf.get_y())
     pdf.set_font(fonts["body"]["family"], fonts["body"]["style"], fonts["body"]["size"])
     pdf.set_text_color(*colors["text_dark"])
-    pdf.cell(55, 5, invoice_data["due_date"], align="R", ln=1)
+    pdf.cell(55, 5, invoice_data["due_date"], align="R", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     pdf.ln(layout["section_gap"])
 
@@ -116,7 +118,7 @@ def add_items_table(pdf, invoice_data):
     pdf.set_x(layout["margin"])
     pdf.cell(col_s, layout["row_height"] + 2, "DESCRIPTION",    fill=True, border=0)
     pdf.cell(col_a, layout["row_height"] + 2, "RATE",   align="R", fill=True, border=0)
-    pdf.cell(col_a, layout["row_height"] + 2, "AMOUNT", align="R", fill=True, border=0, ln=1)
+    pdf.cell(col_a, layout["row_height"] + 2, "AMOUNT", align="R", fill=True, border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     # Item row
     pdf.set_fill_color(*colors["light_bg"])
@@ -125,7 +127,7 @@ def add_items_table(pdf, invoice_data):
     pdf.set_x(layout["margin"])
     pdf.cell(col_s, layout["row_height"] + 2, invoice_data["service"],                         fill=True, border=0)
     pdf.cell(col_a, layout["row_height"] + 2, f"${invoice_data['amount']:.2f}", align="R",     fill=True, border=0)
-    pdf.cell(col_a, layout["row_height"] + 2, f"${invoice_data['amount']:.2f}", align="R",     fill=True, border=0, ln=1)
+    pdf.cell(col_a, layout["row_height"] + 2, f"${invoice_data['amount']:.2f}", align="R",     fill=True, border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     pdf.ln(layout["section_gap"] - 2)
 
@@ -149,10 +151,11 @@ def add_totals_section(pdf, invoice_data):
         pdf.set_font(fonts["body"]["family"], style, fonts["body"]["size"] if not bold else fonts["total"]["size"])
         pdf.set_x(start_x)
         pdf.cell(layout["col_amount"], layout["row_height"], label, fill=highlight, border=0)
-        pdf.cell(layout["col_amount"], layout["row_height"], value, align="R", fill=highlight, border=0, ln=1)
+        pdf.cell(layout["col_amount"], layout["row_height"], value, align="R", fill=highlight, border=0, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
     totals_row("Subtotal",  f"${invoice_data['amount']:.2f}")
-    totals_row(f"Tax ({invoice_data['tax_rate']:.0f}%)", f"${invoice_data['tax_amount']:.2f}")
+    # normalize() drops trailing zeros, so 13 shows as "13%" and 13.5 as "13.5%"
+    totals_row(f"Tax ({invoice_data['tax_rate'].normalize():f}%)", f"${invoice_data['tax_amount']:.2f}")
     totals_row("TOTAL DUE", f"${invoice_data['total']:.2f}", bold=True, highlight=True)
 
     pdf.ln(layout["section_gap"])
@@ -166,15 +169,17 @@ def add_footer(pdf):
     pdf.set_font(fonts["small"]["family"], fonts["small"]["style"], fonts["small"]["size"])
     pdf.set_text_color(*colors["text_muted"])
     pdf.set_x(15)
-    pdf.cell(0, 5, "Thank you for your business.", ln=1)
+    pdf.cell(0, 5, "Thank you for your business.", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.set_x(15)
-    pdf.cell(0, 5, "Payment via bank transfer or PayPal. Please include the invoice number as reference.", ln=1)
+    pdf.cell(0, 5, "Payment via bank transfer or PayPal. Please include the invoice number as reference.", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
 
 
 def save_invoice(pdf, client_name, invoice_number):
     output_dir = Path("output")
     output_dir.mkdir(exist_ok=True)
-    clean_name = client_name.replace(" ", "")
+    # Keep only letters and digits, so a name like "A/B Traders" can't
+    # break the file path.
+    clean_name = re.sub(r"[^A-Za-z0-9]", "", client_name) or "Client"
     filename = output_dir / f"Invoice_{clean_name}_{invoice_number}.pdf"
     pdf.output(str(filename))
     return filename

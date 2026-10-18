@@ -9,10 +9,11 @@ ready-to-send PDF invoice per client in seconds.
 ## Features
 
 - Generate one PDF invoice per CSV row
-- Automatic tax and total calculations
-- CSV validation with Pydantic
+- Automatic tax and total calculations, done with `Decimal` and rounded to the cent (no floating-point money errors)
+- CSV validation with Pydantic — names can't be blank, amounts must be positive, tax rates 0–100, due dates must be real dates
+- Bad rows are skipped with a clear message (e.g. `Row 3: due_date: ...`) instead of stopping the whole batch
 - Clean, professional invoice layout
-- Sequential invoice numbering
+- Sequential invoice numbering that continues across runs (saved in `invoice_counter.json`), so numbers are never reused and old PDFs are never overwritten
 - Easy template customization
 
 
@@ -30,7 +31,8 @@ csv-to-invoice/
 ├── processors/
 │   ├── __init__.py
 │   ├── reader.py              # loads and validates CSV with Pydantic
-│   └── calculator.py          # tax, subtotal, and total logic
+│   ├── calculator.py          # tax, subtotal, and total logic (Decimal)
+│   └── numbering.py           # remembers the last invoice number between runs
 │
 ├── generators/
 │   ├── __init__.py
@@ -78,7 +80,11 @@ John Smith, Web Scraping, 150, 13, 2026-06-15
 python main.py
 ```
 
-Generated invoices appear in the `output/` folder.
+Generated invoices appear in the `output/` folder. Any row that fails
+validation is listed in the terminal and skipped; the rest are still created.
+
+Invoice numbers pick up where the last run stopped. To start again from
+`001`, delete `invoice_counter.json`.
 
 
 ---
