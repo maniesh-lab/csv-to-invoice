@@ -96,6 +96,8 @@ pytest
 They check the money maths (rounding to the cent), that bad rows are skipped
 with the right row number, that invoice numbers carry on between runs, and that
 a real PDF is written.
+GitHub Actions runs them, plus a `ruff` lint check, on Python 3.11–3.13 for
+every push (pandas 3 needs Python 3.11 or newer).
 
 
 ---

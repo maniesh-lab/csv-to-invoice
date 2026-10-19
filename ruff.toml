@@ -1,0 +1,10 @@
+# Lint settings (ruff). Default rule set: real bugs and unused code, not style.
+target-version = "py311"
+line-length = 120
+
+[lint]
+select = ["E4", "E7", "E9", "F"]
+
+[lint.per-file-ignores]
+# the package __init__ files re-export their functions on purpose
+"__init__.py" = ["F401"]
