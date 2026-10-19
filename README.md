@@ -41,12 +41,20 @@ csv-to-invoice/
 ├── input/
 │   └── clients.csv            # sample input
 │
-├── output/                    # generated invoices land here
-├── tests/                     # pytest tests for money, validation, numbering and the PDF
+├── output/                    # generated invoices land here (6 samples included)
+├── screenshots/
+│   └── invoice_preview.png
+│
+├── tests/
+│   └── test_invoices.py       # money, validation, numbering and the PDF
+│
+├── .github/workflows/ci.yml   # lint + tests on every push (Python 3.11–3.13)
 ├── main.py                    # orchestrates the full pipeline
 ├── .gitignore
 ├── pytest.ini
+├── ruff.toml                  # lint rules
 ├── requirements.txt
+├── LICENSE
 └── README.md
 ```
 
