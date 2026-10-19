@@ -1,5 +1,7 @@
 # csv-to-invoice
 
+[![CI](https://github.com/maniesh-lab/csv-to-invoice/actions/workflows/ci.yml/badge.svg)](https://github.com/maniesh-lab/csv-to-invoice/actions/workflows/ci.yml)
+
 Automatically generate professional PDF invoices from a CSV spreadsheet.
 Drop in a CSV containing client names, services, and amounts — get a polished,
 ready-to-send PDF invoice per client in seconds.
