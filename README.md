@@ -135,6 +135,7 @@ email, colors, and fonts there without touching any other file.
 | `fpdf2` | PDF generation |
 | `pathlib` | File path handling |
 | `pytest` | Tests |
+| `ruff` | Lint check, run with the tests by GitHub Actions on every push |
 
 ---
 
