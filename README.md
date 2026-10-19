@@ -42,8 +42,10 @@ csv-to-invoice/
 │   └── clients.csv            # sample input
 │
 ├── output/                    # generated invoices land here
+├── tests/                     # pytest tests for money, validation, numbering and the PDF
 ├── main.py                    # orchestrates the full pipeline
 ├── .gitignore
+├── pytest.ini
 ├── requirements.txt
 └── README.md
 ```
@@ -86,6 +88,15 @@ validation is listed in the terminal and skipped; the rest are still created.
 Invoice numbers pick up where the last run stopped. To start again from
 `001`, delete `invoice_counter.json`.
 
+**Run the tests**
+```bash
+pip install pytest
+pytest
+```
+They check the money maths (rounding to the cent), that bad rows are skipped
+with the right row number, that invoice numbers carry on between runs, and that
+a real PDF is written.
+
 
 ---
 
@@ -111,6 +122,7 @@ email, colors, and fonts there without touching any other file.
 | `pydantic` | Data validation |
 | `fpdf2` | PDF generation |
 | `pathlib` | File path handling |
+| `pytest` | Tests |
 
 ---
 
