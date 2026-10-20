@@ -11,12 +11,11 @@ def get_sender_info():
 def get_colors():
     return {
         "primary":      (23, 37, 84),      # deep navy — header background
-        "accent":       (59, 130, 246),    # clean blue — highlights and borders
-        "light_bg":     (241, 245, 249),   # very light grey — alternating table rows
+        "accent":       (59, 130, 246),    # clean blue — tagline under your name
+        "light_bg":     (241, 245, 249),   # very light grey — item row background
         "white":        (255, 255, 255),
         "text_dark":    (15, 23, 42),      # near black — body text
         "text_muted":   (100, 116, 139),   # grey — labels and secondary text
-        "success":      (34, 197, 94),     # green — total due row accent
     }
 
 
