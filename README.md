@@ -2,9 +2,10 @@
 
 [![CI](https://github.com/maniesh-lab/csv-to-invoice/actions/workflows/ci.yml/badge.svg)](https://github.com/maniesh-lab/csv-to-invoice/actions/workflows/ci.yml)
 
-Automatically generate professional PDF invoices from a CSV spreadsheet.
-Drop in a CSV containing client names, services, and amounts — get a polished,
-ready-to-send PDF invoice per client in seconds.
+Turns a CSV of clients into one PDF invoice each. Every row is checked with
+Pydantic, money is worked out with `Decimal` so cents are never off, and invoice
+numbers carry on between runs so old invoices are never overwritten. A bad row is
+skipped with a message instead of stopping the batch.
 
 ---
 
@@ -56,6 +57,7 @@ csv-to-invoice/
 ├── pytest.ini
 ├── ruff.toml                  # lint rules
 ├── requirements.txt
+├── requirements-test.txt      # + pytest and ruff for tests and lint
 ├── LICENSE
 └── README.md
 ```
@@ -100,8 +102,9 @@ Invoice numbers pick up where the last run stopped. To start again from
 
 **Run the tests**
 ```bash
-pip install pytest
+pip install -r requirements.txt -r requirements-test.txt
 pytest
+ruff check .
 ```
 They check the money maths (rounding to the cent), that bad rows are skipped
 with the right row number, that invoice numbers carry on between runs, and that
@@ -125,6 +128,13 @@ email, colors, and fonts there without touching any other file.
 
 ---
 
+## Known Limitations
+
+- Each invoice has one line: one service and one amount per CSV row
+- Amounts are always shown in US dollars (`$`)
+- Run `main.py` from the repo folder: `input/`, `output/` and `invoice_counter.json` are found from where you run it
+
+---
 
 ## Tech Stack
 
