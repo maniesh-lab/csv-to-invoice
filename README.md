@@ -19,7 +19,6 @@ skipped with a message instead of stopping the batch.
 - Sequential invoice numbering that continues across runs (saved in `invoice_counter.json`), so numbers are never reused and old PDFs are never overwritten
 - Easy template customization
 
-
 ---
 
 ## Project Structure
@@ -112,7 +111,6 @@ a real PDF is written.
 GitHub Actions runs them, plus a `ruff` lint check, on Python 3.11–3.13 for
 every push (pandas 3 needs Python 3.11 or newer).
 
-
 ---
 
 ## Sample Invoice
@@ -125,14 +123,6 @@ every push (pandas 3 needs Python 3.11 or newer).
 
 All invoice styling lives in `templates/invoice_template.py` — update your name,
 email, colors, and fonts there without touching any other file.
-
----
-
-## Known Limitations
-
-- Each invoice has one line: one service and one amount per CSV row
-- Amounts are always shown in US dollars (`$`)
-- Run `main.py` from the repo folder: `input/`, `output/` and `invoice_counter.json` are found from where you run it
 
 ---
 
@@ -154,6 +144,14 @@ email, colors, and fonts there without touching any other file.
 Built for small business owners who manage client billing in spreadsheets and
 need a fast, automated way to produce professional invoices — no manual formatting,
 no per-client effort.
+
+---
+
+## Known Limitations
+
+- Each invoice has one line: one service and one amount per CSV row
+- Amounts are always shown in US dollars (`$`)
+- Run `main.py` from the repo folder: `input/`, `output/` and `invoice_counter.json` are found from where you run it
 
 ---
 
